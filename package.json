@@ -1,0 +1,10 @@
+{
+  "name": "shadertoy_webgpu",
+  "version": "1.0.0",
+  "author": "xiaozhuai",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "@webgpu/types": "^0.1.51"
+  }
+}

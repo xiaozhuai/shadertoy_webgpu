@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shadertoy WebGPU</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class="container">
+    <div class="inner-container">
+        <canvas id="canvas" width="1600" height="900"></canvas>
+        <div class="controls">
+            <select class="select" id="shader-select">
+                <option selected value="XsyGzD">XsyGzD</option>
+                <option value="mtyGWy">mtyGWy</option>
+            </select>
+            <button class="button" id="open-in-shadertoy">Open in Shadertoy</button>
+        </div>
+        <div class="info">
+            <b>Note:</b><br>
+            This is a project that I personally use to learn the WebGPU api.<br>
+            All shaders on this page are derived from <b>Shadertoy</b>,
+            they are converted to wgsl format to run in WebGPU.
+        </div>
+    </div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

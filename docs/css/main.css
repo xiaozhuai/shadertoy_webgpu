@@ -1,0 +1,80 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #404040;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-container > * + * {
+    margin-top: 1rem;
+}
+
+.controls {
+    text-align: center;
+}
+
+.info {
+    color: #dddddd;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info b {
+    color: #eeeeee;
+}
+
+.select {
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    width: 16rem;
+    padding: 0.8rem 4rem 0.8rem 0.8rem;
+    background: url(../image/whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2) 3em);
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    user-select: none;
+}
+
+.select:hover {
+    background: url(../image/whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.4) 3em, rgba(255, 255, 255, 0.3) 3em);
+}
+
+.select:focus {
+    outline: none;
+}
+
+.select option {
+    color: inherit;
+    background-color: white;
+}
+
+.button {
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    padding: 0.8rem 2rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    user-select: none;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
