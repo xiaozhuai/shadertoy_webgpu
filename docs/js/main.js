@@ -143,20 +143,96 @@ openInShadertoyButton.addEventListener('click', () => {
     window.open(`https://www.shadertoy.com/view/${shaderSelect.value}`);
 });
 
-let isFullscreen = false;
-canvas.addEventListener('dblclick', async () => {
-    if (isFullscreen) {
+const switchFullscreen = async () => {
+    if (document.fullscreenElement) {
         await document.exitFullscreen();
-        isFullscreen = false;
     } else {
         await canvas.requestFullscreen();
-        isFullscreen = true;
+    }
+};
+canvas.addEventListener('dblclick', async () => {
+    await switchFullscreen();
+});
+const fullscreenButton = document.querySelector('#fullscreen');
+fullscreenButton.addEventListener('click', async () => {
+    await switchFullscreen();
+});
+
+class FpsCounter {
+    constructor(callback) {
+        this.fpsUpdateCallback = callback;
+        this.startTime = 0;
+        this.frameCount = 0;
+    }
+
+    update() {
+        const currentTime = performance.now();
+        if (this.startTime === 0) {
+            this.startTime = currentTime;
+        } else if (currentTime - this.startTime >= 1000) {
+            this.fps = this.frameCount * 1000 / (currentTime - this.startTime);
+            this.fpsUpdateCallback(this.fps);
+            this.startTime = currentTime;
+            this.frameCount = 0;
+        } else {
+            this.frameCount++;
+        }
+    }
+}
+
+const fpsText = document.querySelector('#fps');
+const fpsCounter = new FpsCounter((fps) => {
+    fpsText.textContent = `${fps.toFixed(2)} fps`;
+});
+
+class Timeline {
+    constructor() {
+        this.startTime = performance.now() / 1000;
+        this.isPaused = false;
+    }
+
+    get() {
+        if (this.isPaused) {
+            return this.pauseTime - this.startTime;
+        } else {
+            return performance.now() / 1000 - this.startTime;
+        }
+    }
+
+    pause() {
+        this.isPaused = true;
+        this.pauseTime = performance.now() / 1000;
+    }
+
+    resume() {
+        this.isPaused = false;
+        this.startTime += performance.now() / 1000 - this.pauseTime;
+    }
+}
+
+const timeText = document.querySelector('#time');
+const timeline = new Timeline();
+
+const pauseButton = document.querySelector('#pause');
+pauseButton.addEventListener('click', () => {
+    if (!timeline.isPaused) {
+        timeline.pause();
+        pauseButton.classList.remove('icon-pause');
+        pauseButton.classList.add('icon-play');
+    } else {
+        timeline.resume();
+        pauseButton.classList.remove('icon-play');
+        pauseButton.classList.add('icon-pause');
     }
 });
 
 function render() {
+    const time = timeline.get();
+    timeText.textContent = `${time.toFixed(2)}`;
+
     updateResolution(canvas.width, canvas.height);
-    updateTime(performance.now() / 1000);
+    updateTime(time);
+
     const encoder = device.createCommandEncoder();
     const pass = encoder.beginRenderPass({
         colorAttachments: [{
@@ -173,6 +249,8 @@ function render() {
     pass.end();
     const commandBuffer = encoder.finish();
     device.queue.submit([commandBuffer]);
+
+    fpsCounter.update();
     requestAnimationFrame(render);
 }
 
